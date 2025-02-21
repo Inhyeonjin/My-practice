@@ -38,9 +38,9 @@ int main()
 		{
 			int i;
 			cin >> i;
-			for (int j = N-1; j >=i+1; j--)
+			for (int j = i+1; j < N; ++j)
 			{
-				arr[j] = arr[j-1];
+				arr[j-1] = arr[j];
 			}
 			arr[N -1] = 0;
 
