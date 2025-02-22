@@ -1,0 +1,156 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+struct node
+{
+	int data;
+	node* next;
+};
+
+class singleLinkedList
+{
+private:
+	node* head;
+	node* tail;
+public:
+	singleLinkedList();
+	void Print();
+	void AddFront();
+	void RemoveFront();
+	void Updata();
+	void Min();
+	bool empty();
+	int listSize;
+};
+
+singleLinkedList::singleLinkedList()
+{
+	listSize = 0;
+	head = NULL;
+	tail = NULL;
+}
+
+void singleLinkedList::Print()
+{
+	if (empty())
+		cout << "empty";
+	node* curNode = head;
+	while (curNode != NULL)
+	{
+		cout << curNode->data << " ";
+		curNode = curNode->next;
+	}
+	cout << endl;
+}
+void singleLinkedList::AddFront()
+{
+	int X;
+	cin >> X;
+	node* newNode = new node;
+
+	newNode->data = X;
+	newNode->next = head;
+	head = newNode;
+	
+	listSize++;
+}
+void singleLinkedList::RemoveFront()			//가장 맨앞에 노드를 삭제하고 삭제된값출력
+{
+	if (empty())
+		cout << "empty";
+	node* old = head;
+	cout << old->data << endl;
+	head = old->next;
+	delete old;
+	listSize--;
+}
+void singleLinkedList::Updata()				//i번째 노드에 저장된값을 X로 변경하는 함수
+{
+	int i;
+	int X;
+	cin >> i >> X;
+	if (i >= listSize)
+	{
+		cout << "error" << endl;
+		return;
+	}
+	node* curNode = head;
+	for (int k = 0; k < i; k++)
+	{
+		curNode = curNode->next;
+	}
+
+	curNode->data = X;
+}
+void singleLinkedList::Min()
+{
+	if (empty())
+	{
+		cout << "empty";
+		return;
+	}
+
+	int minValue = head->data;
+	int minIndex = 0;
+	int currentIndex = 0;
+	node* curNode = head;
+
+	while (curNode != NULL)
+	{
+		if (curNode->data < minValue)
+		{
+			minValue = curNode->data;
+			minIndex = currentIndex;
+		}
+		curNode = curNode->next;
+		currentIndex++;
+	}
+
+	cout << minIndex << " " << minValue << endl;
+}
+bool singleLinkedList::empty()
+{
+	if (listSize == 0)
+		return true;
+	else
+		return false;
+}
+
+int main() 
+{
+	int number;
+	cin >> number;
+	string command;
+
+	singleLinkedList list;
+
+
+	for (int i = 0; i < number; i++)
+	{
+		cin >> command;
+		if (command == "Print")
+		{
+			list.Print();
+		}
+		else if (command == "AddFront")
+		{
+			list.AddFront();
+		}
+		else if (command == "RemoveFront")
+		{
+			list.RemoveFront();
+		}
+		else if (command == "Update")
+		{
+			list.Updata();
+		}
+		else if (command == "Min")
+		{
+			list.Min();
+		}
+
+	}
+	
+
+}
