@@ -1,0 +1,68 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+int main()
+{
+	int T;				//명령어의 개수
+	int N;				//배열의크기
+	cin >> T >> N;
+	int* arr = new int[N] {};
+	
+	for (int i = 0; i < N; i++)
+	{
+		cin >> arr[i];
+	}
+
+	string command;
+	
+	for (int i = 0; i < T; i++)
+	{
+		cin >> command;
+		if (command == "shift")
+		{
+			int d;
+			cin >> d;
+			int* temp = new int[d];
+
+			for (int j = 0; j < d; j++)
+			{
+				temp[j] = arr[j];					//temp에 저장해놓고
+
+			}
+
+			for (int j = 0; j < N-d; j++)
+			{
+				arr[j] = arr[ j+d ];				//앞으로 숫자 떙기고
+			}
+
+			for (int j = 0; j < d ; j++)
+			{
+				arr[N - d+j] = temp[j];
+			}
+		}
+		else if (command == "print")
+		{
+			for (int i = 0; i < N; i++)
+			{
+				cout << arr[i] << " ";
+			}
+			cout << endl;
+		}
+		else if (command == "switch")
+		{
+			int i;
+			int j;
+			cin >> i >> j;
+			int temp = arr[j];
+			arr[j] = arr[i];
+			arr[i] = temp;
+
+		}
+		
+	}
+
+
+
+	delete[]arr;
+}
