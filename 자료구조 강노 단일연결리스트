@@ -15,12 +15,13 @@ private:
 	node* tail;
 	int listSize;
 public:
-	singlyLinkedList();
 	bool empty();
-	void append(int data) {};
-	void insertion(int i, int data) {};
-	void deletion(int i) {};
-	void print() {};
+	void append(int data);
+	void insertion(int i, int data);
+	void deletion(int i);
+	void print();
+	singlyLinkedList();
+
 };
 
 singlyLinkedList::singlyLinkedList()
@@ -28,19 +29,18 @@ singlyLinkedList::singlyLinkedList()
 	head = NULL;
 	tail = NULL;
 	listSize = 0;
+
 }
 
 bool singlyLinkedList::empty()
 {
 	if (listSize == 0)
-	{
 		return true;
-	}
 	else
 		return false;
 }
 
-void singlyLinkedList::append(int data)				// 맨 끝에 추가
+void singlyLinkedList::append(int data)
 {
 	node* newNode = new node;
 	newNode->data = data;
@@ -54,35 +54,33 @@ void singlyLinkedList::append(int data)				// 맨 끝에 추가
 		tail = newNode;
 	}
 	listSize++;
-
 }
-void singlyLinkedList::insertion(int i, int data)				//특정 위치에 추가
+
+void singlyLinkedList::insertion(int i, int data)
 {
-	if (i < 0 || i > listSize)			//범위 외의 입력은 받지 않음
+	if (i<0 || i > listSize)
 	{
 		return;
-	} 
-
-	else if (i == listSize)				//맨 끝에 추가면 append 함수 호출
+	}
+	else if (i == listSize)
 	{
 		append(data);
 	}
-
-	else if (i == 0)					//맨 처음에 추가
+	else if(i==0)
 	{
 		node* newNode = new node;
 		newNode->data = data;
-		newNode->next = head;			//새로운 노드의 next를 그 전에 있었던 헤드에 연걸
-		head = newNode;					//그리고 새로운 노드에 head 지정
-		listSize++;						//리스트 크기 증가
+		newNode->next = head;
+		head = newNode;
+		listSize++;
 	}
-	else					           //그 외에 위치에 추가하기 
+	else
 	{
 		node* newNode = new node;
 		newNode->data = data;
-		node* curNode = head;			//새로운 노드가 추가될 위치의 이전 노드 저장
+		node* curNode = head;
 
-		for (int k = 1; k < i; k++)				//이전 노드를 선형으로 탐색 , 왼쪽부터 오른쪽까지 차례로 탐색
+		for (int k = 1; k < i; k++)
 		{
 			curNode = curNode->next;
 		}
@@ -92,11 +90,11 @@ void singlyLinkedList::insertion(int i, int data)				//특정 위치에 추가
 		listSize++;
 	}
 }
-void singlyLinkedList::deletion(int i) 
-{
-	if (empty() || i<0 || i>listSize)
-		return;
 
+void singlyLinkedList::deletion(int i)
+{
+	if (empty() || i > listSize || i < 0)
+		return;
 	node* curNode = head;
 	if (i == 0)
 	{
@@ -108,9 +106,7 @@ void singlyLinkedList::deletion(int i)
 		{
 			head = head->next;
 		}
-
 	}
-
 	else
 	{
 		node* preNode = head;
@@ -127,19 +123,31 @@ void singlyLinkedList::deletion(int i)
 		delete curNode;
 		listSize--;
 	}
+
+
+
 }
-void singlyLinkedList::print() 
+
+void singlyLinkedList::print()
 {
 	if (empty())
 	{
-		cout << "empty";
-
-		node* curNode = head;
-		while (curNode != NULL)
-		{
-			cout << curNode->data << " ";
-			curNode = curNode->next;
-		}
-		cout << endl;
+		cout << "empty" << endl;
 	}
+	node* curNode = head;
+
+	while (curNode != NULL)
+	{
+		cout << curNode->data << " ";
+		curNode = curNode->next;
+
+	}
+	cout << endl;
+	
+		
+}
+
+int main()
+{
+
 }
