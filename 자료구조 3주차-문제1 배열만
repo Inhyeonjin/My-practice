@@ -61,8 +61,11 @@ void arrayStack::top()
 }
 void arrayStack::push(int X)
 {
-	if (topIndex >= capacity-1)
+	if (topIndex >= capacity - 1)
+	{
 		cout << "FULL" << endl;
+		return;
+	}
 	else
 	{
 		++topIndex;
@@ -88,6 +91,7 @@ int main()
 
 	string command;
 	arrayStack arr{ t };
+
 	for (int i = 0; i < number; i++)
 	{
 		cin >> command;
