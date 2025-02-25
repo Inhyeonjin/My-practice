@@ -1,0 +1,185 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+struct Node
+{
+    int data;
+    Node* prev;
+    Node* next;
+   
+};
+
+class DoublyLinkedList
+{
+private:
+    Node* head;
+    Node* tail;
+    int listSize;
+public:
+    DoublyLinkedList();
+    void Print();
+    void AddFront();
+    void RemoveFront();
+    void Update();
+    void Min();
+    bool empty();
+};
+
+DoublyLinkedList::DoublyLinkedList()
+{
+    listSize = 0;
+    head = NULL;
+    tail = NULL;
+}
+
+bool DoublyLinkedList::empty()
+{
+    if (listSize == 0)
+        return true;
+    else
+        return false;
+}
+
+void DoublyLinkedList::Print()
+{
+    if (empty())
+    {
+        cout << "empty" << endl;
+        return;
+    }
+
+    Node* curNode = head;
+    
+    while (curNode != NULL)
+    {
+        cout << curNode->data << " ";
+        curNode = curNode->next;
+    }
+    cout << endl;
+}
+
+void DoublyLinkedList::AddFront()
+{
+    int X;
+    cin >> X;
+    Node* newNode = new Node();
+
+    newNode->data = X;
+
+    if (empty())
+    {
+        head = tail = newNode;
+    }
+    else
+    {
+        newNode->next = head;
+        head->prev = newNode;
+        head = newNode;
+    }
+
+    listSize++;
+}
+
+void DoublyLinkedList::RemoveFront()
+{
+    if (empty())
+    {
+        cout << "empty" << endl;
+        return;
+    }
+
+    Node* old = head;
+    cout << old->data << endl;
+    head = old->next;
+
+    if (head != nullptr)                //연결을 끊어주는 역할
+    {
+        head->prev = nullptr;
+    }
+    else
+    {
+        tail = nullptr;
+    }
+
+    delete old;
+    listSize--;
+}
+
+void DoublyLinkedList::Update()
+{
+    int i, X;
+    cin >> i >> X;
+    if (i >= listSize)
+    {
+        cout << "error" << endl;
+        return;
+    }
+
+    Node* curNode = head;
+    for (int k = 0; k < i; k++)
+    {
+        curNode = curNode->next;
+    }
+
+    curNode->data = X;
+}
+
+void DoublyLinkedList::Min()
+{
+    if (empty())
+    {
+        cout << "empty" << endl;
+        return;
+    }
+
+    int minValue = head->data;
+    int minIndex = 0;
+    int currentIndex = 0;
+    Node* curNode = head;
+
+    while (curNode)
+    {
+        if (curNode->data < minValue)
+        {
+            minValue = curNode->data;
+            minIndex = currentIndex;
+        }
+        curNode = curNode->next;
+        currentIndex++;
+    }
+    cout << minIndex << " " << minValue << endl;
+}
+
+int main()
+{
+    int number;
+    cin >> number;
+    string command;
+    DoublyLinkedList list;
+
+    for (int i = 0; i < number; i++)
+    {
+        cin >> command;
+        if (command == "Print")
+        {
+            list.Print();
+        }
+        else if (command == "AddFront")
+        {
+            list.AddFront();
+        }
+        else if (command == "RemoveFront")
+        {
+            list.RemoveFront();
+        }
+        else if (command == "Update")
+        {
+            list.Update();
+        }
+        else if (command == "Min")
+        {
+            list.Min();
+        }
+    }
+}
