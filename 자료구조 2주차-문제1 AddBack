@@ -1,0 +1,184 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+struct node
+{
+	int data;
+	node* next;
+};
+
+class singleLinkedList
+{
+private:
+	node* head;
+	node* tail;
+public:
+	singleLinkedList();
+	void Print();
+	void AddBack();
+	void RemoveBack();
+	void Updata();
+	void Max();
+	bool empty();
+	int listSize;
+};
+
+singleLinkedList::singleLinkedList()
+{
+	listSize = 0;
+	head = NULL;
+	tail = NULL;
+}
+
+void singleLinkedList::Print()
+{
+	if (empty())
+		cout << "empty";
+
+	node* curNode = head;
+
+	while (curNode != NULL)
+	{
+		cout << curNode->data << " ";
+		curNode = curNode->next;
+	}
+	cout << endl;
+}
+void singleLinkedList::AddBack()
+{
+	int X;
+	cin >> X;
+	
+	node* NewNode = new node;
+
+	NewNode->data = X;
+	NewNode->next = NULL;
+
+	if (empty())
+	{
+		head = tail = NewNode;
+	}
+	else
+	{
+		tail->next = NewNode;
+		tail = NewNode;
+
+	}
+	listSize++;
+}
+void singleLinkedList::RemoveBack()			//가장 맨뒤에 노드를 삭제하고 삭제된값출력
+{
+	if (empty())
+		cout << "empty";
+
+	node* old = tail;
+	cout << old->data << endl;
+
+	if (head == tail)
+	{
+		head = tail = NULL;
+	}
+	else
+	{
+		node* curNode = head;
+		while (curNode->next != tail)
+		{
+			curNode = curNode->next;
+		}
+		tail = curNode;
+		tail->next = NULL;
+	}
+
+	
+
+	delete old;
+	listSize--;
+}
+void singleLinkedList::Updata()				//i번째 노드에 저장된값을 X로 변경하는 함수
+{
+	int i;
+	int X;
+	cin >> i >> X;
+	if (i >= listSize)
+	{
+		cout << "error" << endl;
+		return;
+	}
+
+	node* curNode = head;
+	for (int k = 0; k < i; k++)
+	{
+		curNode = curNode->next;
+	}
+
+	curNode->data = X;
+}
+void singleLinkedList::Max()
+{
+	if (empty())
+	{
+		cout << "empty" << endl;
+		return;
+	}
+
+	int maxValue = head->data;
+	int maxIndex = 0;
+	int currentIndex = 0;
+
+	node* curNode = head;
+
+	while (curNode != NULL)
+	{
+		if (curNode->data > maxValue)
+		{
+			maxValue = curNode->data;
+			maxIndex = currentIndex;
+		}
+		curNode = curNode->next;
+		currentIndex++;
+	}
+
+	cout << maxIndex << " " << maxValue << endl;
+}
+bool singleLinkedList::empty()
+{
+	if (listSize == 0)
+		return true;
+	else
+		return false;
+}
+
+int main() 
+{
+	int number;
+	cin >> number;
+	string command;
+
+	singleLinkedList list;
+
+	for (int i = 0; i < number; i++)
+	{
+		cin >> command;
+		if (command == "Print")
+		{
+			list.Print();
+		}
+		else if (command == "AddBack")
+		{
+			list.AddBack();
+		}
+		else if (command == "RemoveBack")
+		{
+			list.RemoveBack();
+		}
+		else if (command == "Update")
+		{
+			list.Updata();
+		}
+		else if (command == "Max")
+		{
+			list.Max();
+		}
+	}
+}
