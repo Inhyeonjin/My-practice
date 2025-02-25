@@ -1,0 +1,115 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+class arrayStack
+{
+private:
+	int* arr;
+	int capacity;
+	int topIndex;
+public:
+	arrayStack(int capacity);
+	void size();
+	void empty();
+	void full();
+	void top();
+	void push(int X);
+	void pop();
+};
+
+arrayStack::arrayStack(int capacity)
+{
+	this->capacity = capacity;
+	arr = new int[capacity];
+	topIndex = -1;
+}
+
+void arrayStack::size()
+{
+	cout << topIndex+1 << endl;
+}
+
+void arrayStack::empty()
+{
+	if (topIndex == -1)
+	{
+		cout << "1" << endl;
+
+	}
+		
+	else
+	{
+		cout << "0" << endl;
+		
+	}
+		
+}
+void arrayStack::full()
+{
+	if (topIndex >= capacity-1)
+		cout << "1" << endl;
+	else
+		cout << "0" << endl;
+}
+void arrayStack::top()
+{
+	if (topIndex ==-1)
+		cout << "-1" << endl;
+	else
+		cout << arr[topIndex] << endl;
+}
+void arrayStack::push(int X)
+{
+	if (topIndex >= capacity-1)
+		cout << "FULL" << endl;
+	else
+	{
+		++topIndex;
+		arr[topIndex] = X;
+	}
+}
+void arrayStack::pop()
+{
+	if (topIndex == -1)
+		cout << "-1" << endl;
+	else
+	{
+		cout << arr[topIndex] << endl;
+		--topIndex;
+	}
+}
+
+int main()
+{
+	int t;
+	int number;
+	cin >> t >> number;
+
+	string command;
+	arrayStack arr{ t };
+	for (int i = 0; i < number; i++)
+	{
+		cin >> command;
+		if (command == "size")
+		{
+			arr.size();
+		}
+		else if (command == "empty")
+			arr.empty();
+		else if (command == "full")
+			arr.full();
+		else if (command == "top")
+			arr.top();
+		else if (command == "push")
+		{
+			int X;
+			cin >> X;
+			arr.push(X);
+		}
+		else if (command == "pop")
+			arr.pop();
+
+
+	}
+}
