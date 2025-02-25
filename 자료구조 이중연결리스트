@@ -6,8 +6,7 @@ struct Node
 {
     int data;
     Node* prev;
-    Node* next;
-   
+    Node* next; 
 };
 
 class DoublyLinkedList
@@ -93,13 +92,13 @@ void DoublyLinkedList::RemoveFront()
     cout << old->data << endl;
     head = old->next;
 
-    if (head != nullptr)                //연결을 끊어주는 역할
+    if (head != NULL)                          //연결을 끊어주는 역할
     {
-        head->prev = nullptr;
+        head->prev = NULL;
     }
     else
     {
-        tail = nullptr;
+        tail = NULL;
     }
 
     delete old;
