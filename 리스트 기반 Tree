@@ -1,0 +1,132 @@
+#include <iostream>
+#include<string>
+#include <list>
+using namespace std;
+
+class Node
+{
+private:
+	int data;
+	Node* parent;
+	list<Node*> children;
+public:
+	Node(int data, Node* parent)
+		:data{data},parent{parent} {}
+	friend class Tree;
+};
+
+class Tree
+{
+private:
+	Node* rootnode;				//루트 노드
+	list<Node*>nodelist;		//노드 타입의 리스트
+public:
+	Tree(int value);
+	int size();				//크기를 리턴해주는 함수
+	Node* root();			//루트를 리턴해주는 함수
+	list<Node*>::iterator find(list<Node*>& List, int value);
+	void insert(Node* pos, int value);
+	void erase(Node* pos);
+
+	void PreorderTraversal();		//전위 순회
+	void PostorderTraversal();		//후위 순회
+
+	void PreorderTraversal(Node* pos);		//pos위치의 노드를 루트로 하는 부분트리 전위순회
+	void PostorderTraversal(Node* pos);		//pos위치의 노드를 루트로 하는 부분트리 후위순회
+};
+
+Tree::Tree(int value)
+	:rootnode(new Node(value,nullptr))
+{
+	nodelist.push_back(rootnode);		//처음에 루트를 nodelist에 삽입
+}
+
+int Tree::size()
+{
+	return static_cast<int>(nodelist.size());			//노드 리스트의 사이즈를 리턴
+}
+
+Node* Tree::root()
+{
+	return rootnode;		//루트 노드를 리턴
+}
+
+list<Node*>::iterator Tree::find(list<Node*>& List, int value)
+{
+	list<Node*>::iterator it = List.begin();
+	while (it != List.end())		//맨 끝에 다음 노드에 도달할 때까지 반복
+	{
+		if ((*it)->data == value)		//만약 중간에 데이터를 찾았으면 break
+			break;
+		++it;			//못 찾았으면 증가시켜주면서 계속 끝까지 도달할때까지 반복
+	}
+	return it;	
+}
+
+void Tree::insert(Node* pos, int value)
+{
+	if (pos == nullptr)
+		return;
+	Node* newNode = new Node(value, pos);		//value의 데이터를 가지는 노드 생성
+	pos->children.push_back(newNode);			//pos위치의 자식에 새로운 노드 삽입
+	nodelist.push_back(newNode);			//노드 리스트에도 새로운 노드 삽입
+}
+
+void Tree::erase(Node* pos)
+{
+	if (pos == nullptr)
+		return;
+	if (pos == rootnode)		//루트 노드는 삭제 불가능
+		return;
+
+	Node* parentNode = pos->parent;		//삭제할 노드의 부모를 지정해둠
+
+	parentNode->children.erase(find(parentNode->children, pos->data));	//
+	nodelist.erase(find(nodelist, pos->data));
+	
+	for (Node* child : pos->children)
+	{
+		parentNode->children.push_back(child);
+		child->parent = parentNode;
+	}
+
+	delete pos;
+
+}
+
+void Tree::PreorderTraversal()
+{
+	PreorderTraversal(root());
+	cout << "\n";
+}
+
+void Tree::PreorderTraversal(Node* pos)
+{
+	if (pos == nullptr)
+		return;
+
+	cout << pos->data << " ";	//일단 자기 먼저 순회하고
+
+	for (Node* child : pos->children)		//그 다음 자식노드를 순회
+	{
+		PreorderTraversal(child);
+	}
+}
+
+void Tree::PostorderTraversal()
+{
+	PostorderTraversal(root());
+	cout << "\n";
+}
+
+void Tree::PostorderTraversal(Node* pos)
+{
+	if (pos == nullptr)
+		return;
+
+	for (Node* child : pos->children)
+	{
+		PreorderTraversal(child);
+	}
+	cout << pos->data << " ";
+}
